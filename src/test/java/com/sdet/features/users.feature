@@ -15,3 +15,20 @@ Feature: User API Tests
     When I request the list of users on page 2
     Then the response status code should be 200
     And the response should contain a list of users
+    
+  Scenario: Create a new user successfully
+  Given the API is available
+  When I create a user with name "John" and job "SDET"
+  Then the response status code should be 201
+  And the response should contain the created user details
+  
+  Scenario: Update an existing user successfully
+  Given the API is available
+  When I update user 1 with name "John Updated" and job "Senior SDET"
+  Then the response status code should be 200
+  And the response should contain the updated user details
+  
+  Scenario: Delete an existing user successfully
+  Given the API is available
+  When I delete user 1
+  Then the response status code should be 200  

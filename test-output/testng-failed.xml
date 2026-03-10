@@ -6,8 +6,8 @@
       <class name="com.sdet.runners.TestRunner">
         <methods>
           <include name="setUpClass"/>
-          <include name="runScenario" invocation-numbers="0"/>
           <include name="tearDownClass"/>
+          <include name="runScenario" invocation-numbers="4"/>
         </methods>
       </class> <!-- com.sdet.runners.TestRunner -->
     </classes>

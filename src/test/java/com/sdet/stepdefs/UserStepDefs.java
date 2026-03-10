@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,5 +66,65 @@ public class UserStepDefs {
             assertNotNull(user.get("username"), "username is null");
         }
         System.out.println("✅ All " + users.size() + " users have id, email and username");
+    }
+    
+    @When("I create a user with name {string} and job {string}")
+    public void iCreateAUser(String name, String job) {
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("name", name);
+        requestBody.put("job", job);
+
+        response = given()
+                .body(requestBody)
+                .when()
+                .post("/users")
+                .then()
+                .extract()
+                .response();
+        
+        
+        System.out.println("✅ Create user response: " + response.getBody().asString());
+    }
+
+    @Then("the response should contain the created user details")
+    public void theResponseShouldContainCreatedUser() {
+        assertNotNull(response.jsonPath().get("id"), "id is null");
+        System.out.println("✅ Created user id: " + response.jsonPath().get("id"));
+        System.out.println("✅ Full response: " + response.getBody().asString());
+    }
+    @When("I update user {int} with name {string} and job {string}")
+    public void iUpdateAUser(int userId, String name, String job) {
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("name", name);
+        requestBody.put("job", job);
+
+        response = given()
+                .body(requestBody)
+                .when()
+                .put("/users/" + userId)
+                .then()
+                .extract()
+                .response();
+
+        System.out.println("✅ Update user response: " + response.getBody().asString());
+    }
+
+    @Then("the response should contain the updated user details")
+    public void theResponseShouldContainUpdatedUser() {
+        assertNotNull(response.jsonPath().get("name"), "name is null");
+        assertNotNull(response.jsonPath().get("job"), "job is null");
+        System.out.println("✅ Updated name: " + response.jsonPath().get("name"));
+        System.out.println("✅ Updated job: " + response.jsonPath().get("job"));
+    }
+    @When("I delete user {int}")
+    public void iDeleteAUser(int userId) {
+        response = given()
+                .when()
+                .delete("/users/" + userId)
+                .then()
+                .extract()
+                .response();
+
+        System.out.println("✅ Delete user response status: " + response.getStatusCode());
     }
 }
