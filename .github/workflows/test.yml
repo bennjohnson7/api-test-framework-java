@@ -36,6 +36,3 @@ jobs:
         with:
           name: cucumber-reports
           path: target/cucumber-reports/
-```
-
-6. **Ctrl+S** → Save → Close Notepad
